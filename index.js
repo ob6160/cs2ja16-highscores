@@ -26,10 +26,13 @@ app.post('*', (req, res) => {
     const highscores = db.collection("highscores")
     console.log(name, score)
     if(name && score) {
-      const entry = {name: name, score: score}
+      const entry = {name: name, score: parseInt(score,10)}
       highscores.insertOne(entry, (err, r) => {
         client.close()
-        res.json(r)
+        highscores.find().sort({score:-1}).limit(1).toArray((err, result) => {
+          if(err) throw err
+          res.json(result)
+        })
       })
     }
   })
