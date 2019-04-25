@@ -1,8 +1,22 @@
 const express = require('express')
 const helmet = require('helmet')
-const dotenv = require('dotenv')
-
 const app = express()
+
+if (process.env.NODE_ENV !== 'production') {
+  require('now-env')
+}
+
+const MongoClient = require(‘mongodb’).MongoClient;
+const mongoUser = process.env.MONGOUSER;
+const mongoPass = process.env.MONGOPASS;
+const uri = `mongodb+srv://${mongoUser}:${mongoPass}@cluster0-nrdwp.gcp.mongodb.net/test?retryWrites=true`;
+
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
 
 // add some security-related headers to the response
 app.use(helmet())
