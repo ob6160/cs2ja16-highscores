@@ -6,7 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('now-env')
 }
 
-const MongoClient = require(‘mongodb’).MongoClient;
+const MongoClient = require('mongodb').MongoClient;
 const mongoUser = process.env.MONGOUSER;
 const mongoPass = process.env.MONGOPASS;
 const uri = `mongodb+srv://${mongoUser}:${mongoPass}@cluster0-nrdwp.gcp.mongodb.net/test?retryWrites=true`;
