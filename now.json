@@ -2,5 +2,8 @@
   "version": 2,
   "name": "cs2ja16-leaderboard",
   "alias": ["cs2ja16leaderboard.now.sh"],
+  "builds": [
+    { "src": "**/*.js", "use": "@now/node" }
+  ],
   "regions": ["bru1"]
 }
