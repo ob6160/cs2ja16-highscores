@@ -7,13 +7,13 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const MongoClient = require('mongodb').MongoClient;
-const mongoUser = process.env.MONGOUSER;
-const mongoPass = process.env.MONGOPASS;
+const mongoUser = process.env.MONGO_USER;
+const mongoPass = process.env.MONGO_PASS;
 const uri = `mongodb+srv://${mongoUser}:${mongoPass}@cluster0-nrdwp.gcp.mongodb.net/test?retryWrites=true`;
 
 const client = new MongoClient(uri, { useNewUrlParser: true });
 client.connect(err => {
-  const collection = client.db("test").collection("devices");
+  const collection = client.db("leaderboard").collection("highscores");
   // perform actions on the collection object
   client.close();
 });
