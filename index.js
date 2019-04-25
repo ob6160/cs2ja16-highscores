@@ -29,7 +29,7 @@ app.get('leaderboard', (req, res) => {
 })
 
 // Allow for users to POST new scores
-app.post('leaderboard/:name/:score', async (req, res) => {
+app.get('leaderboard/:name/:score', async (req, res) => {
   const name = req.params.name
   const score = req.params.score
   if(name && score > -1) {
