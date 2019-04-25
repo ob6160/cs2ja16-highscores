@@ -12,35 +12,33 @@ const mongoPass = process.env.MONGO_PASS;
 const uri = `mongodb+srv://${mongoUser}:${mongoPass}@cluster0-nrdwp.gcp.mongodb.net/test?retryWrites=true`;
 
 const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("leaderboard").collection("highscores");
 
-  // add some security-related headers to the response
-  app.use(helmet())
-  // parse JSON strings received in req body as JS object
-  app.use(express.json())
+// add some security-related headers to the response
+app.use(helmet())
 
-  app.get('*', (req, res) => {
-      res.set('Content-Type', 'text/html')
-      res.status(200).send(`
-        Pac-Man?
-      `)
-  })
+app.get('*', (req, res) => {
+    res.set('Content-Type', 'text/html')
+    res.status(200).send(`
+      Pac-Man?
+    `)
+})
 
-  // Get top ten leaderboard entries in descending order of score
-  app.get('leaderboard', (req, res) => {
-    res.json({})
-  })
+// Get top ten leaderboard entries in descending order of score
+app.get('/leaderboard', (req, res) => {
+  res.json({})
+})
 
-  // Allow for users to POST new scores
-  app.post('leaderboard/:name/:score', (req, res) => {
-    const name = req.params.name;
-    const score = req.params.score;
-    res.json({name: name, score: score})
-  })
-
-  client.close();
-});
+// Allow for users to POST new scores
+app.post('/leaderboard/:name/:score', async (req, res) => {
+  const name = req.params.name
+  const score = req.params.score
+  if(name && score > -1) {
+    const entry = {name: name, score: score}
+    await client.connect()
+    const highscores = client.db("leaderboard").collection("highscores")
+    highscores.save(entry)
+  }
+})
 
 
 module.exports = app
