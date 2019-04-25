@@ -1,16 +1,8 @@
 const express = require('express')
 const helmet = require('helmet')
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
+const dotenv = require('dotenv')
 
-const db = low(adapter)
 const app = express()
-
-const adapter = new FileSync('db.json')
-
-// Set the database defaults for leaderboard
-db.defaults({ leaderboard: [] })
-  .write()
 
 // add some security-related headers to the response
 app.use(helmet())
@@ -26,23 +18,14 @@ app.get('*', (req, res) => {
 
 // Get top ten leaderboard entries in descending order of score
 app.get('leaderboard', (req, res) => {
-  const data = db.get('leaderboard')
-    .sortBy('score')
-    .take(10)
-    .value();
-
-  res.json(data)
+  res.json({})
 })
 
 // Allow for users to POST new scores
 app.post('leaderboard/:name/:score', (req, res) => {
   const name = req.params.name;
   const score = req.params.score;
-  if(name && (score > -1)) {
-    db.get('leaderboard')
-      .push({ name: name, score: score })
-      .write();
-  }
+  res.json({name: name, score: score})
 })
 
 module.exports = app

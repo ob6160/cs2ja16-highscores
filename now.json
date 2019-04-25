@@ -5,5 +5,15 @@
   "builds": [
     { "src": "**/*.js", "use": "@now/node" }
   ],
+  "build": {
+    "env": {
+      "MONGO_USER": "@mongouser",
+      "MONGO_PASS": "@mongopass"
+    }
+  },
+  "env": {
+    "MONGO_USER": "@mongouser",
+    "MONGO_PASS": "@mongopass"
+  },
   "regions": ["bru1"]
 }
