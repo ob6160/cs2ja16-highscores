@@ -24,12 +24,12 @@ app.get('*', (req, res) => {
 })
 
 // Get top ten leaderboard entries in descending order of score
-app.get('/leaderboard', (req, res) => {
+app.get('leaderboard', (req, res) => {
   res.json({})
 })
 
 // Allow for users to POST new scores
-app.post('/leaderboard/:name/:score', async (req, res) => {
+app.post('leaderboard/:name/:score', async (req, res) => {
   const name = req.params.name
   const score = req.params.score
   if(name && score > -1) {
